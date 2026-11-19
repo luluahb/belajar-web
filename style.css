@@ -128,6 +128,12 @@ button:hover {
     opacity: 0.85;
 }
 
+/* Tombol yang sedang dimatikan (disabled), misalnya saat menunggu data */
+button:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
 /* Tombol mode gelap di header: warnanya dibalik */
 #tombol-tema {
     margin-top: 15px;

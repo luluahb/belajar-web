@@ -114,3 +114,43 @@ daftarHobi.forEach(function (hobi) {
 // Tampilkan jumlah hobi di halaman
 document.getElementById("jumlah-hobi").textContent =
     "Saya punya " + daftarHobi.length + " hobi:";
+
+
+// ===== Pelajaran 12: Object dan fetch API =====
+
+// Object: satu variabel berisi beberapa data yang masing-masing punya nama
+const profil = {
+    nama: "Lulu",
+    status: "pelajar",
+    target: "Laravel",
+    jumlahHobi: daftarHobi.length
+};
+
+console.log(profil);                 // seluruh isi object
+console.log(profil.nama);            // ambil satu data dengan titik: "Lulu"
+console.log("Target belajar " + profil.nama + ": " + profil.target);
+
+// fetch: mengambil data dari server lain lewat internet
+const teksFakta = document.getElementById("teks-fakta");
+const tombolFakta = document.getElementById("tombol-fakta");
+
+async function ambilFaktaKucing() {
+    teksFakta.textContent = "Memuat fakta kucing...";
+    tombolFakta.disabled = true;     // matikan tombol selama menunggu
+
+    try {
+        const respons = await fetch("https://catfact.ninja/fact");
+        const data = await respons.json();   // ubah jawaban server jadi object
+        console.log("Data dari server:", data);
+
+        teksFakta.textContent = data.fact;
+    } catch (error) {
+        console.log("Gagal mengambil data:", error);
+        teksFakta.textContent = "Maaf, fakta kucing gagal dimuat. Cek koneksi internet lalu coba lagi.";
+    }
+
+    tombolFakta.disabled = false;    // nyalakan tombol lagi
+}
+
+ambilFaktaKucing();                                      // ambil satu fakta saat halaman dibuka
+tombolFakta.addEventListener("click", ambilFaktaKucing); // ambil fakta baru saat tombol diklik
