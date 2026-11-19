@@ -32,18 +32,33 @@ elemenSapaan.textContent = buatSapaan(waktu, nama);
 
 // ===== Pelajaran 10: Event =====
 
-// --- Fitur 1: Tombol mode gelap ---
+// --- Fitur 1: Tombol mode gelap (Pelajaran 11: sekarang diingat browser) ---
 const tombolTema = document.getElementById("tombol-tema");
 
-tombolTema.addEventListener("click", function () {
-    // Pasang class "gelap" di <body> kalau belum ada, lepas kalau sudah ada
-    document.body.classList.toggle("gelap");
-
-    // Ganti tulisan tombol sesuai mode yang sedang aktif
-    if (document.body.classList.contains("gelap")) {
+// Fungsi untuk memasang mode gelap (true) atau mode terang (false)
+function pasangTema(gelap) {
+    if (gelap) {
+        document.body.classList.add("gelap");
         tombolTema.textContent = "☀️ Mode Terang";
     } else {
+        document.body.classList.remove("gelap");
         tombolTema.textContent = "🌙 Mode Gelap";
+    }
+}
+
+// Saat halaman dibuka: cek pilihan yang tersimpan sebelumnya
+const temaTersimpan = localStorage.getItem("tema");
+pasangTema(temaTersimpan === "gelap");
+
+// Saat tombol diklik: balik mode, lalu simpan pilihannya
+tombolTema.addEventListener("click", function () {
+    const sedangGelap = document.body.classList.contains("gelap");
+    pasangTema(!sedangGelap);
+
+    if (!sedangGelap) {
+        localStorage.setItem("tema", "gelap");
+    } else {
+        localStorage.setItem("tema", "terang");
     }
 });
 
@@ -66,3 +81,36 @@ formKontak.addEventListener("submit", function (event) {
     // Kosongkan form lagi
     formKontak.reset();
 });
+
+
+// ===== Pelajaran 11: Array dan perulangan =====
+
+// Array: satu variabel berisi banyak data, ditulis dalam kurung siku [ ]
+const daftarHobi = [
+    "Membaca buku",
+    "Menulis cerita",
+    "Berjalan-jalan di alam",
+    "Belajar coding"
+];
+
+// .length = jumlah isi array
+console.log("Jumlah hobi:", daftarHobi.length);
+console.log("Hobi pertama:", daftarHobi[0]);   // urutan dimulai dari 0
+
+// Perulangan for: mengulang perintah untuk setiap isi array
+for (let i = 0; i < daftarHobi.length; i++) {
+    console.log("Hobi ke-" + (i + 1) + ": " + daftarHobi[i]);
+}
+
+// forEach: cara lain mengulang isi array, lalu membuat <li> untuk setiap hobi
+const elemenDaftarHobi = document.getElementById("daftar-hobi");
+
+daftarHobi.forEach(function (hobi) {
+    const li = document.createElement("li");   // buat elemen <li> baru
+    li.textContent = hobi;                     // isi teksnya
+    elemenDaftarHobi.appendChild(li);          // masukkan ke dalam <ul>
+});
+
+// Tampilkan jumlah hobi di halaman
+document.getElementById("jumlah-hobi").textContent =
+    "Saya punya " + daftarHobi.length + " hobi:";
